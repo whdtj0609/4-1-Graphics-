@@ -1,0 +1,133 @@
+* 베지어 함수
+
+void setup(){
+  size(500,500);
+}
+
+void draw(){
+  scale(3);
+  noFill();
+  stroke(255,102,0);
+  //line(85,20,10,10);
+  //line(90,90,15,80);
+  stroke(255,30,100);
+  bezier(85,20,10,10,90,90,15,80);
+  stroke(255,0,0);
+  bezier(85,20,20,20,80,80,15,80);
+  stroke(255,100,0);
+  bezier(85,20,30,30,70,70,15,80);
+  stroke(255,255,0);
+  bezier(85,20,40,40,60,60,15,80);
+  stroke(100,200,155);
+  bezier(85,20,50,50,50,50,15,80);
+}
+
+---------------------------------------------------------
+* 별그리기
+
+void setup() {
+  size(600, 600);
+}
+
+void draw() {
+  background(0);
+  
+  float plus_hei=0.15;
+  
+  for(int i=0;i<3;i++)
+  {
+  
+    pushMatrix();
+    translate(width*0.2, height*plus_hei);
+    rotate(frameCount / 200.0);
+    fill(220,190,255);
+    // frameCount: moving speed per second(60)
+    star(0, 0, 5, 70, 4); 
+    popMatrix();
+    
+    pushMatrix();
+    translate(width*0.5, height*plus_hei);
+    rotate(frameCount / 400.0);
+    fill(190,250,250);
+    star(0, 0, 80, 20, 40); 
+    popMatrix();
+    
+    pushMatrix();
+    translate(width*0.8, height*plus_hei);
+    rotate(frameCount / -100.0);
+    fill(255,255,180);
+    star(0, 0, 40, 70, 5); 
+    popMatrix();
+    
+    plus_hei+=0.35;
+  
+  }
+  
+}
+
+void star(float x, float y, float radius1, float radius2, int npoints) {
+  float angle = TWO_PI / npoints;
+  // TWO_PI = PI*2(6.2831855)
+  float halfAngle = angle/2.0;
+  beginShape();
+  for (float a = 0; a < TWO_PI; a += angle) {
+    float sx = x + cos(a) * radius2;
+    float sy = y + sin(a) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a+halfAngle) * radius1;
+    sy = y + sin(a+halfAngle) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
+
+
+---------------------------------------------------------------------------
+* Transparency
+
+PImage img;
+float offset = 0;
+float easing = 0.05;
+
+void setup() {
+  size(640, 360);
+  img = loadImage("moonwalk.jpg");  // Load an image into the program, 해당 파일 폴더의 data폴더 안에 그림파일이 있어야함
+}
+
+void draw() { 
+  image(img, 0, 20);  // Display at full opacity
+  float dx = (mouseX-img.width/2) - offset;
+  offset += dx * easing; 
+  tint(105, 100, 255, 120);  // Display at half opacity
+  image(img, offset, 0);
+}
+
+
+---------------------------------------------------------------------------
+* PGraphics
+
+PGraphics pg;
+String str = "Andong";
+
+void setup(){
+  size(500,500);
+  pg = createGraphics(400,400);
+}
+void draw(){
+  background(255);
+  fill(0);
+  ellipse(mouseX,mouseY,100,100);
+  pg.beginDraw();
+  pg.background(0);
+  pg.textSize(48);
+  pg.fill(255);
+  pg.ellipse(mouseX-50,mouseY-50,100,100);
+  pg.fill(0);
+  pg.text(str,100,100);
+  pg.endDraw();
+  image(pg, 50, 50);
+}
+
+
+
+
